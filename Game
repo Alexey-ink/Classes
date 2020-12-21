@@ -1,0 +1,190 @@
+scoreL =0
+scoreR =0
+def setup(): 
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy  
+    size(500, 500)
+    x=width/2
+    y=height/2
+    w=50
+    h=50
+    speedx=3
+    speedy=3
+    textSize(30)
+    rectMode(CENTER)
+    textAlign(CENTER, CENTER)
+    paddlexl=20
+    paddleyl=height/2
+
+    paddlexr=width-20
+    paddleyr=height/2
+
+    paddlew=30
+    paddleh=100
+    paddles=5
+    
+    upl = False
+    upr = False
+    downl = False
+    downr = False
+    
+
+
+    winScore=10
+
+def draw(): 
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy  
+    drawCircle()
+    moveCircle()
+    bounceOff()
+
+    drawPaddles()
+    movePaddle()
+    restrictPaddle()
+    bounceOffPaddle()
+    scores()
+    gameOver()
+
+
+def gameOver(): 
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if scoreL == winScore:
+       gameOverPage("Green Wins!", color(0, 255, 0))
+  
+
+    if scoreR == winScore:
+       gameOverPage("Yellow Wins!", color(255, 255, 0))
+      
+      
+def gameOverPage(text,c):
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy 
+    speedx = 0
+    speedy = 0
+
+    fill(255)
+    text("Game Over", width/2, height/3-40)
+    fill(c)
+    text(text, width/2, height/3)
+    fill(255)
+    text("Click to play again", width/2, height/3+40)
+
+    if mousePressed: 
+      scoreR=0;
+      scoreL=0;
+      speedx=3;
+      speedy=3;
+
+def scores():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    fill(255, 255, 255)
+    text(scoreL, 100, 50)
+    text(scoreR, width - 100, 50)
+
+def bounceOffPaddle():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if x-w/2<paddlexl+paddlew/2 and y-h/2<paddleyl +paddleh/2 and y-h/2>paddleyl -paddleh/2:
+      if speedx<0: 
+         speedx=-speedx
+    
+    elif x+w/2>paddlexr-paddlew/2 and y-h/2<paddleyr +paddleh/2 and y-h/2>paddleyr -paddleh/2: 
+         if speedx>0: 
+            speedx=-speedx
+
+def restrictPaddle():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if paddleyl - paddleh/2 <0:
+      paddleyl=paddleyl+paddles
+  
+
+    if paddleyl + paddleh/2 > height:
+      paddleyl=paddleyl-paddles
+  
+
+    if paddleyr - paddleh/2 <0:
+      paddleyr=paddleyr+paddles
+  
+
+    if paddleyr + paddleh/2 > height:
+      paddleyr=paddleyr-paddles
+
+def movePaddle():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if upl == True: 
+      paddleyl = paddleyl-paddles
+  
+    if downl==True: 
+      paddleyl=paddleyl+paddles
+   
+    if upr==True: 
+      paddleyr = paddleyr-paddles
+  
+    if downr==True: 
+      paddleyr=paddleyr+paddles
+  
+def keyPressed():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if keyCode==87: 
+      upl=True
+  
+    if keyCode==83:
+      downl=True
+
+    if keyCode == UP: 
+      upr=True
+
+    if keyCode == DOWN: 
+      downr=True
+
+def keyReleased():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    if keyCode==87: 
+      upl=False
+
+    if keyCode==83:
+      downl=False
+  
+
+    if keyCode==UP:
+      upr=False
+  
+    if keyCode==DOWN:
+      downr=False
+  
+def drawPaddles():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    fill(0, 255, 0)
+    rect(paddlexl, paddleyl, paddlew, paddleh)
+
+    fill(255, 255, 0)
+    rect(paddlexr, paddleyr, paddlew, paddleh)
+
+def drawCircle():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy 
+    background(0)
+    fill (255, 0, 0)
+    ellipse(x, y, w, h)
+
+def moveCircle():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    x=x+speedx
+    y=y+speedy
+
+def bounceOff():
+    global winScore, scoreL, scoreR, upr, downr, upl, downl, paddlexr, paddleyr, paddlexl, paddleyl, paddlew, paddleh, paddles, x, y, w, h, speedx, speedy
+    
+    if x>width-25:
+        setup()
+        speedx = -speedx
+        scoreL = scoreL+1
+      
+    elif x < 0 +25:
+        setup()
+        speedx = -speedx
+        scoreR=scoreR+1
+        
+        
+
+    if y>height-25: 
+        speedy = -speedy
+        
+    elif y<0+h/2:
+        speedy=-speedy
